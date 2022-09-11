@@ -207,12 +207,18 @@ series1 = pd.Series(x , name='Medals')
 series2 = pd.Series(y , name='Sport')
  #merge series into DataFrame
 df_xy = pd.concat([series1, series2], axis=1)
-xy=df_xy.head(20)
+country_m_s=df_xy.head(20).reset_index()
+country_m_s.columns.name=None
+country_m_s
 
-if st.checkbox('Show details:'):
-   st.write(xy)
-
-
+#by bar chart we see the 20 team that have the highest number of medals in Olympic for a sport
+fig = px.bar(country_m_s, x='region', y='Medals', color='Sport', labels={
+        "region": "Name of the country",
+        "Medals": "Total medals won in the sport",
+        "Sport": "Sports played by the athletes"
+          })
+fig.update_layout(title='<b>Top-20 countries and their highest number of medals with respect to sports <b>',height=700)
+st.write(fig)
 
 
 ###########   Performane of Men and women   ###########
