@@ -155,8 +155,6 @@ st.write(fig)
 
 st.subheader('Performance of countries in olympics')
 
-df_medal_duplicated = df.drop_duplicates(subset=['Event','Sport','Team','region','Games','Year','City','Medal']).reset_index()
-df_medal_duplicated.drop(columns=['index'], inplace=True)
 #team sport medals change to one for each country
 df_medal_duplicated = df.drop_duplicates(subset=['Event','Sport','Team','region','Games','Year','City','Medal']).reset_index()
 df_medal_duplicated.drop(columns=['index'], inplace=True)
@@ -175,13 +173,16 @@ fig = px.bar(medals_region, x='region', y='Total',
 fig.update_layout(title='<b>Number of medals for each country<b>',height=700)
 st.write(fig)
 
+if st.checkbox('Show Medal Tally'):
+   st.write(country_medals)
+
 
 #############    Sports and Medals      ############
 
 #we see the number of Medals/athletes in each sport that helds in Olympics
 df_sport = df.groupby('Sport')['Name'].count().reset_index(name = 'Count')
 df_sport = df_sport.sort_values('Count',ascending = False).reset_index()
-s = df_sport.head(29)
+s = df_sport.head(30)
 #Medals won in each sport in the Olympics
 fig = px.bar(s, x='Sport', y='Count', 
       labels={"Sport": "Name of the Sports",
